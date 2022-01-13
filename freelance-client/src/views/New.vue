@@ -36,16 +36,21 @@ export default {
 
     const store = useStore();
 
+    const createTask = () => {
+      if (new Date(formData.date) < new Date()) formData.status = "cancelled";
+      store.dispatch("addNewTask", formData);
+    };
+
     const isDisabled = computed(
       () =>
         formData.title === "" ||
-        formData.date === "" ||
+        formData.date === null ||
         formData.description === ""
     );
 
     return {
       formData,
-      createTask: () => store.dispatch("addNewTask", formData),
+      createTask,
       isDisabled,
     };
   },

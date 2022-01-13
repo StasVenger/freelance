@@ -7,7 +7,7 @@
     <div class="card" v-for="task in tasksList" :key="task.id">
       <h2 class="card-title">
         {{ task.title }}
-        <AppStatus :type="'done'" />
+        <AppStatus :type="task.status" />
       </h2>
       <p>
         <strong>
@@ -22,10 +22,10 @@
 </template>
 
 <script>
-import AppStatus from "../components/AppStatus";
 import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
+import AppStatus from "../components/AppStatus";
 
 export default {
   setup() {

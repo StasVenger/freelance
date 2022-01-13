@@ -5,7 +5,6 @@ import router from "@/router/index.js";
 export default createStore({
   state: {
     tasks: [],
-    task: null,
   },
   mutations: {
     SET_TASKS(state, tasks) {
@@ -13,6 +12,10 @@ export default createStore({
     },
     ADD_NEW_TASK(state, task) {
       state.tasks.push(task);
+    },
+    UPDATE_TASK_STATUS(state, task) {
+      const index = state.tasks.findIndex((item) => item.id === task.id);
+      state.tasks[index] = task;
     },
   },
   actions: {
@@ -39,15 +42,29 @@ export default createStore({
           return error;
         });
     },
-    addNewTask({ commit }, payload) {
+    addNewTask({ commit }, task) {
       return axios
         .post(
           "https://freelance-71c9a-default-rtdb.firebaseio.com/tasks.json",
-          payload
+          task
         )
         .then((response) => {
           commit("ADD_NEW_TASK", response.data);
           router.push({ name: "Tasks" });
+        })
+        .catch((error) => {
+          console.log(error);
+          return error;
+        });
+    },
+    changeTaskStatus({ commit }, task) {
+      return axios
+        .put(
+          `https://freelance-71c9a-default-rtdb.firebaseio.com/tasks/${task.id}.json`,
+          task
+        )
+        .then((response) => {
+          commit("UPDATE_TASK_STATUS", response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -62,8 +79,8 @@ export default createStore({
     getActiveTasks(state) {
       return state.tasks.filter((task) => task.status === "active").length;
     },
-    getTask(_, getters) {
-      return (id) => getters.getTasks.find((task) => task.id === id);
+    getTask: (state) => (id) => {
+      return state.tasks.find((task) => task.id === id);
     },
   },
 });

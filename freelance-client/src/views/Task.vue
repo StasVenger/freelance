@@ -2,12 +2,21 @@
   <div class="card" v-if="taskInfo">
     <h2>{{ taskInfo.title }}</h2>
     <p><strong>Статус</strong>: <AppStatus :type="'done'" /></p>
-    <p><strong>Дэдлайн</strong>: {{ new Date(taskInfo.date).toLocaleDateString() }}</p>
+    <p>
+      <strong>Дэдлайн</strong>:
+      {{ new Date(taskInfo.date).toLocaleDateString() }}
+    </p>
     <p><strong>Описание</strong>: {{ taskInfo.description }}</p>
     <div>
-      <button class="btn">Взять в работу</button>
-      <button class="btn primary">Завершить</button>
-      <button class="btn danger">Отменить</button>
+      <button class="btn" @click="changeStatus('pending')">
+        Взять в работу
+      </button>
+      <button class="btn primary" @click="changeStatus('complete')">
+        Завершить
+      </button>
+      <button class="btn danger" @click="changeStatus('cancelled')">
+        Отменить
+      </button>
     </div>
   </div>
   <h3 class="text-white center" v-else>
@@ -16,7 +25,7 @@
 </template>
 
 <script>
-import { computed } from "vue";
+import { computed, onMounted } from "vue";
 import { useStore } from "vuex";
 import { useRoute } from "vue-router";
 import AppStatus from "../components/AppStatus";
@@ -29,9 +38,19 @@ export default {
     const taskId = route.params.id;
     const taskInfo = computed(() => store.getters.getTask(taskId));
 
+    const changeStatus = (status) => {
+      const changedTask = { ...taskInfo.value, status };
+      store.dispatch("changeTaskStatus", changedTask);
+    };
+
+    onMounted(() => {
+      store.getters.getTask(taskId);
+    });
+
     return {
       taskId,
       taskInfo,
+      changeStatus,
     };
   },
   components: { AppStatus },
