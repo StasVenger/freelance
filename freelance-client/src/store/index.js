@@ -60,11 +60,10 @@ export default createStore({
       return state.tasks;
     },
     getActiveTasks(state) {
-      let activeTasks = state.tasks.filter((task) => task.status === "active");
-      return activeTasks.length;
+      return state.tasks.filter((task) => task.status === "active").length;
     },
-    getTask(state, id) {
-      return state.tasks.find((task) => task.id === id);
+    getTask(_, getters) {
+      return (id) => getters.getTasks.find((task) => task.id === id);
     },
   },
 });

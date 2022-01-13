@@ -7,7 +7,6 @@ const routes = [
   { path: "/", name: "Tasks", component: Tasks },
   { path: "/new", name: "New_Task", component: New },
   { path: "/:id", name: "Task", component: Task },
-  { path: "/:notFound(.*)*", name: "NotFound" },
 ];
 
 const router = createRouter({

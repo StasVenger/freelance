@@ -36,7 +36,7 @@ export default {
     const countActiveTasks = computed(() => store.getters.getActiveTasks);
 
     function openTask(id) {
-      router.push(`task/${id}`);
+      router.push(`/${id}`);
     }
 
     onMounted(() => {
