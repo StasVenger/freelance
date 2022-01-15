@@ -1,7 +1,7 @@
 <template>
   <div class="card" v-if="taskInfo">
     <h2>{{ taskInfo.title }}</h2>
-    <p><strong>Статус</strong>: <AppStatus :type="'done'" /></p>
+    <p><strong>Статус</strong>: <AppStatus :type="taskInfo.status" /></p>
     <p>
       <strong>Дэдлайн</strong>:
       {{ new Date(taskInfo.date).toLocaleDateString() }}
@@ -11,7 +11,7 @@
       <button class="btn" @click="changeStatus('pending')">
         Взять в работу
       </button>
-      <button class="btn primary" @click="changeStatus('complete')">
+      <button class="btn primary" @click="changeStatus('done')">
         Завершить
       </button>
       <button class="btn danger" @click="changeStatus('cancelled')">
@@ -44,6 +44,7 @@ export default {
     };
 
     onMounted(() => {
+      store.dispatch("getTasksList");
       store.getters.getTask(taskId);
     });
 

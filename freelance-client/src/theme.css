@@ -296,10 +296,6 @@ h3 {
     background: rgba(0, 0, 0, .35);
 }
 
-
-
-
-
 .loader {
     font-size: 10px;
     margin: 50px auto;
@@ -422,8 +418,8 @@ h3 {
 }
 
 .badge.warning {
-    border-color: #c25205;
-    color: #c25205;
+    border-color: #c29305;
+    color: #c29305;
 }
 
 .text-white {
