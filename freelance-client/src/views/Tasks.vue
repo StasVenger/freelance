@@ -4,20 +4,12 @@
   </h1>
   <template v-else>
     <h3 class="text-white">Всего активных задач: {{ countActiveTasks }}</h3>
-    <div class="card" v-for="task in tasksList" :key="task.id">
-      <h2 class="card-title">
-        {{ task.title }}
-        <AppStatus :type="task.status" />
-      </h2>
-      <p>
-        <strong>
-          <small>
-            {{ new Date(task.date).toLocaleDateString() }}
-          </small>
-        </strong>
-      </p>
-      <button class="btn primary" @click="openTask(task.id)">Посмотреть</button>
-    </div>
+    <task-card
+      v-for="task in tasksList"
+      :key="task.id"
+      :task="task"
+      @open-task-info="openTask(task.id)"
+    ></task-card>
   </template>
 </template>
 
@@ -25,7 +17,7 @@
 import { computed, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";
-import AppStatus from "../components/AppStatus";
+import TaskCard from "@/components/TaskCard";
 
 export default {
   setup() {
@@ -49,6 +41,6 @@ export default {
       openTask,
     };
   },
-  components: { AppStatus },
+  components: { TaskCard },
 };
 </script>

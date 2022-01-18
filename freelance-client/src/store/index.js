@@ -21,7 +21,7 @@ export default createStore({
   actions: {
     getTasksList({ commit }) {
       return axios
-        .get("https://freelance-71c9a-default-rtdb.firebaseio.com/tasks.json")
+        .get(`${process.env.VUE_APP_FIREBASE_API_URL}/tasks.json`)
         .then((response) => {
           return response.data;
         })
@@ -44,10 +44,7 @@ export default createStore({
     },
     addNewTask({ commit }, task) {
       return axios
-        .post(
-          "https://freelance-71c9a-default-rtdb.firebaseio.com/tasks.json",
-          task
-        )
+        .post(`${process.env.VUE_APP_FIREBASE_API_URL}/tasks.json`, task)
         .then((response) => {
           commit("ADD_NEW_TASK", response.data);
           router.push({ name: "Tasks" });
@@ -60,7 +57,7 @@ export default createStore({
     changeTaskStatus({ commit }, task) {
       return axios
         .put(
-          `https://freelance-71c9a-default-rtdb.firebaseio.com/tasks/${task.id}.json`,
+          `${process.env.VUE_APP_FIREBASE_API_URL}/tasks/${task.id}.json`,
           task
         )
         .then((response) => {
