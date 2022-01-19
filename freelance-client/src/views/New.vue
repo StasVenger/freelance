@@ -8,7 +8,7 @@
 
     <div class="form-control">
       <label for="date">Дата дэдлайна</label>
-      <input type="date" id="date" v-model="formData.date" />
+      <input type="date" id="date" v-model="formData.date" @keypress.prevent />
     </div>
 
     <div class="form-control">
